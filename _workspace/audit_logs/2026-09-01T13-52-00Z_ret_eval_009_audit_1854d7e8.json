@@ -1,0 +1,48 @@
+{
+  "audit_id": "audit_1854d7e8",
+  "timestamp": "2026-09-01T13:52:00Z",
+  "event_id": "ret_eval_009",
+  "customer_id": "cust_eval_09",
+  "order_id": "ord_eval_09",
+  "return_id": "ret_eval_09",
+  "decision": "ALLOW",
+  "reason": "Legitimate return request: Customer profile healthy, standard timeline, no wardrobing or damage claim anomalies.",
+  "triggered_checks": [],
+  "check_details": {
+    "customer_history_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.95,
+      "risk_score": 0.0,
+      "historical_return_rate": 0.143,
+      "total_orders": 28,
+      "total_returns": 4,
+      "chargeback_count": 0,
+      "indicators": [],
+      "reason": "Customer return profile healthy (14.3% return rate, 600d account age)."
+    },
+    "wardrobing_bracketing_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.94,
+      "risk_score": 0.0,
+      "is_wardrobing": false,
+      "is_bracketing": false,
+      "days_held": 4,
+      "condition": "TAGS_ATTACHED",
+      "indicators": [],
+      "reason": "No wardrobing or bracketing patterns detected (4d holding time, condition: TAGS_ATTACHED)."
+    },
+    "claim_anomaly_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.93,
+      "risk_score": 0.0,
+      "is_claim_anomaly": false,
+      "condition": "TAGS_ATTACHED",
+      "refund_destination": "ORIGINAL_PAYMENT_METHOD",
+      "indicators": [],
+      "reason": "Claim consistency verified. Standard return procedure authorized."
+    }
+  }
+}

@@ -1,92 +1,81 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Agentic Commerce AI Risk Shield - Data Contracts",
-  "version": "1.0.0",
+  "title": "Return-Risk Shield - Data Contracts",
+  "version": "2.0.0",
   "definitions": {
-    "AgentMetadata": {
+    "CustomerProfile": {
       "type": "object",
       "properties": {
-        "agent_id": { "type": "string" },
-        "session_id": { "type": "string" },
-        "ip_address": { "type": "string" },
-        "retry_count": { "type": "integer", "default": 0 }
+        "customer_id": { "type": "string" },
+        "account_age_days": { "type": "integer" },
+        "total_orders_count": { "type": "integer" },
+        "total_returns_count": { "type": "integer" },
+        "historical_return_rate": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "past_return_reasons": { "type": "array", "items": { "type": "string" } },
+        "dispute_chargeback_count": { "type": "integer", "default": 0 }
       },
-      "required": ["agent_id", "session_id"]
+      "required": ["customer_id", "account_age_days", "total_orders_count", "total_returns_count", "historical_return_rate"]
     },
-    "UserStatedIntent": {
-      "type": "object",
-      "properties": {
-        "requested_items": { "type": "string" },
-        "max_budget": { "type": "number" },
-        "currency": { "type": "string", "default": "INR" },
-        "constraints": { "type": "string" },
-        "quantity": { "type": "integer", "default": 1 }
-      },
-      "required": ["requested_items", "max_budget"]
-    },
-    "CartItem": {
+    "OrderItem": {
       "type": "object",
       "properties": {
         "sku": { "type": "string" },
         "title": { "type": "string" },
-        "quantity": { "type": "integer" },
+        "category": { "type": "string" },
         "unit_price": { "type": "number" },
-        "item_description": { "type": "string", "default": "" }
+        "discount_pct": { "type": "number", "default": 0.0 },
+        "size_variant": { "type": ["string", "null"] },
+        "color_variant": { "type": ["string", "null"] },
+        "is_high_resale": { "type": "boolean", "default": false }
       },
-      "required": ["sku", "title", "quantity", "unit_price"]
+      "required": ["sku", "title", "category", "unit_price"]
     },
-    "CheckoutPayload": {
+    "OrderDetails": {
       "type": "object",
       "properties": {
-        "cart_items": {
-          "type": "array",
-          "items": { "$ref": "#/definitions/CartItem" }
-        },
-        "total_amount": { "type": "number" },
+        "order_id": { "type": "string" },
+        "order_date": { "type": "string" },
+        "days_since_purchase": { "type": "integer" },
+        "total_order_amount": { "type": "number" },
         "currency": { "type": "string", "default": "INR" },
-        "shipping_address": { "type": "string" }
+        "payment_method": { "type": "string" },
+        "items": { "type": "array", "items": { "$ref": "#/definitions/OrderItem" } }
       },
-      "required": ["cart_items", "total_amount"]
+      "required": ["order_id", "days_since_purchase", "total_order_amount", "payment_method", "items"]
     },
-    "GroundTruth": {
+    "ReturnRequest": {
       "type": "object",
       "properties": {
-        "target_attack_class": {
-          "type": ["string", "null"],
-          "enum": ["PROMPT_INJECTION", "INTENT_MISMATCH", "PRICE_QUANTITY_ESCALATION", "VELOCITY_ABUSE", "BENIGN", null]
-        },
-        "expected_decision": {
-          "type": "string",
-          "enum": ["ALLOW", "FLAG", "BLOCK"]
-        },
-        "failure_case": { "type": "boolean", "default": false },
-        "rationale": { "type": "string" }
+        "return_id": { "type": "string" },
+        "return_reason_code": { "type": "string" },
+        "return_reason_notes": { "type": "string" },
+        "returned_items": { "type": "array", "items": { "$ref": "#/definitions/OrderItem" } },
+        "requested_refund_amount": { "type": "number" },
+        "refund_destination": { "type": "string" },
+        "item_condition_tag": { "type": ["string", "null"] }
       },
-      "required": ["expected_decision", "rationale"]
+      "required": ["return_id", "return_reason_code", "returned_items", "requested_refund_amount"]
     },
-    "Transaction": {
+    "ReturnEvent": {
       "type": "object",
       "properties": {
-        "transaction_id": { "type": "string" },
+        "event_id": { "type": "string" },
         "is_synthetic": { "type": "boolean", "default": true },
-        "split": { "type": "string", "enum": ["dev", "heldout_eval", "demo"] },
+        "split": { "type": "string", "enum": ["dev", "heldout_eval", "demo", "live"] },
         "timestamp": { "type": "string", "format": "date-time" },
-        "agent_metadata": { "$ref": "#/definitions/AgentMetadata" },
-        "user_stated_intent": { "$ref": "#/definitions/UserStatedIntent" },
-        "checkout_payload": { "$ref": "#/definitions/CheckoutPayload" },
+        "customer_profile": { "$ref": "#/definitions/CustomerProfile" },
+        "order_details": { "$ref": "#/definitions/OrderDetails" },
+        "return_request": { "$ref": "#/definitions/ReturnRequest" },
         "ground_truth": { "$ref": "#/definitions/GroundTruth" }
       },
-      "required": ["transaction_id", "agent_metadata", "user_stated_intent", "checkout_payload"]
+      "required": ["event_id", "customer_profile", "order_details", "return_request"]
     },
     "ShieldDecision": {
       "type": "object",
       "properties": {
         "action": { "type": "string", "enum": ["ALLOW", "FLAG", "BLOCK"] },
         "reason": { "type": "string" },
-        "triggered_checks": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
+        "triggered_checks": { "type": "array", "items": { "type": "string" } },
         "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
         "risk_score": { "type": "number", "minimum": 0.0, "maximum": 100.0 }
       },
@@ -97,39 +86,16 @@
       "properties": {
         "audit_id": { "type": "string" },
         "timestamp": { "type": "string", "format": "date-time" },
-        "transaction_id": { "type": "string" },
-        "agent_id": { "type": "string" },
-        "session_id": { "type": "string" },
+        "event_id": { "type": "string" },
+        "customer_id": { "type": "string" },
+        "order_id": { "type": "string" },
+        "return_id": { "type": "string" },
         "decision": { "type": "string", "enum": ["ALLOW", "FLAG", "BLOCK"] },
         "reason": { "type": "string" },
-        "triggered_checks": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
+        "triggered_checks": { "type": "array", "items": { "type": "string" } },
         "check_details": { "type": "object" }
       },
-      "required": ["audit_id", "timestamp", "transaction_id", "agent_id", "session_id", "decision", "reason", "triggered_checks", "check_details"]
-    },
-    "EvaluationMetric": {
-      "type": "object",
-      "properties": {
-        "precision": { "type": "number" },
-        "recall": { "type": "number" },
-        "false_positive_rate": { "type": "number" },
-        "confusion_matrix": {
-          "type": "object",
-          "properties": {
-            "tp": { "type": "integer" },
-            "fp": { "type": "integer" },
-            "tn": { "type": "integer" },
-            "fn": { "type": "integer" }
-          },
-          "required": ["tp", "fp", "tn", "fn"]
-        },
-        "by_attack_class": { "type": "object" },
-        "sample_count": { "type": "integer" }
-      },
-      "required": ["precision", "recall", "false_positive_rate", "confusion_matrix", "by_attack_class", "sample_count"]
+      "required": ["audit_id", "timestamp", "event_id", "customer_id", "order_id", "return_id", "decision", "reason", "triggered_checks", "check_details"]
     }
   }
 }

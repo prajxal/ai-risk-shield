@@ -1,6 +1,6 @@
 """
-Benchmark Evaluation Runner for Agentic Commerce AI Risk Shield.
-Replays synthetic transactions through Shield defensive proxy and computes
+Benchmark Evaluation Runner for Return-Risk Shield (AI Risk Manager - Track 02).
+Replays synthetic return events through Shield defensive proxy and computes
 per-class Precision, Recall, and False Positive Rate (FPR).
 """
 import os
@@ -15,7 +15,7 @@ from rich.panel import Panel
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../requirements")))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../shield")))
 
-from contracts import Transaction, DecisionAction, AttackClass, EvaluationMetric, ConfusionMatrix, ClassMetric
+from contracts import ReturnEvent, DecisionAction, AbuseClass, EvaluationMetric, ConfusionMatrix, ClassMetric
 from shield_engine import ShieldEngine
 
 console = Console()
@@ -34,52 +34,51 @@ class EvaluationRunner:
         with open(dataset_path, "r") as f:
             raw_cases = json.load(f)
             
-        transactions = [Transaction(**c) for c in raw_cases]
+        return_events = [ReturnEvent(**c) for c in raw_cases]
         
         total_tp = 0
         total_fp = 0
         total_tn = 0
         total_fn = 0
         
-        # Per attack class breakdown
-        attack_classes = [
-            AttackClass.PROMPT_INJECTION.value,
-            AttackClass.INTENT_MISMATCH.value,
-            AttackClass.PRICE_QUANTITY_ESCALATION.value,
-            AttackClass.VELOCITY_ABUSE.value,
+        # Per abuse class breakdown
+        abuse_classes = [
+            AbuseClass.WARDROBING.value,
+            AbuseClass.BRACKETING_ABUSE.value,
+            AbuseClass.SERIAL_RETURNER_FRAUD.value,
+            AbuseClass.FALSE_DAMAGE_CLAIM.value,
             "BENIGN"
         ]
         
         class_stats = {
             cls_name: {"tp": 0, "fp": 0, "tn": 0, "fn": 0, "total": 0}
-            for cls_name in attack_classes
+            for cls_name in abuse_classes
         }
         
         failure_cases = []
         detailed_results = []
         
-        for tx in transactions:
-            decision, audit = self.shield.evaluate(tx)
-            gt = tx.ground_truth
+        for ev in return_events:
+            decision, audit = self.shield.evaluate(ev)
+            gt = ev.ground_truth
             
-            gt_class = gt.target_attack_class.value if gt and gt.target_attack_class else "BENIGN"
+            gt_class = gt.target_abuse_class.value if gt and gt.target_abuse_class else "BENIGN"
             gt_action = gt.expected_decision.value if gt else "ALLOW"
             is_failure_fixture = gt.failure_case if gt else False
             
             pred_action = decision.action.value
             
-            is_adversarial = (gt_class != "BENIGN")
+            is_abuse = (gt_class != "BENIGN")
             is_predicted_threat = (pred_action in ["BLOCK", "FLAG"])
-            is_ground_threat = (gt_action in ["BLOCK", "FLAG"])
             
             # Classification outcome
-            if is_adversarial:
+            if is_abuse:
                 if is_predicted_threat:
                     # True Positive
                     total_tp += 1
                     class_stats[gt_class]["tp"] += 1
                 else:
-                    # False Negative (Missed attack)
+                    # False Negative (Missed return abuse)
                     total_fn += 1
                     class_stats[gt_class]["fn"] += 1
             else:
@@ -89,7 +88,7 @@ class EvaluationRunner:
                     total_tn += 1
                     class_stats["BENIGN"]["tn"] += 1
                 else:
-                    # False Positive (Falsely flagged benign)
+                    # False Positive (Falsely flagged benign return)
                     total_fp += 1
                     class_stats["BENIGN"]["fp"] += 1
                     
@@ -98,8 +97,8 @@ class EvaluationRunner:
             match = (pred_action == gt_action)
             if not match or is_failure_fixture:
                 failure_cases.append({
-                    "transaction_id": tx.transaction_id,
-                    "target_attack_class": gt_class,
+                    "event_id": ev.event_id,
+                    "target_abuse_class": gt_class,
                     "expected": gt_action,
                     "predicted": pred_action,
                     "risk_score": decision.risk_score,
@@ -109,8 +108,8 @@ class EvaluationRunner:
                 })
                 
             detailed_results.append({
-                "transaction_id": tx.transaction_id,
-                "target_attack_class": gt_class,
+                "event_id": ev.event_id,
+                "target_abuse_class": gt_class,
                 "expected": gt_action,
                 "predicted": pred_action,
                 "decision_match": match,
@@ -132,7 +131,7 @@ class EvaluationRunner:
             else:
                 cls_prec = counts["tp"] / (counts["tp"] + counts["fp"]) if (counts["tp"] + counts["fp"]) > 0 else 1.0
                 cls_rec = counts["tp"] / (counts["tp"] + counts["fn"]) if (counts["tp"] + counts["fn"]) > 0 else 1.0
-                cls_fpr = 0.0  # Attacks themselves don't contribute to benign FPR directly
+                cls_fpr = 0.0
                 
             by_class_metrics[cls_name] = {
                 "precision": round(cls_prec, 4),
@@ -147,7 +146,7 @@ class EvaluationRunner:
 
         summary = {
             "split": split_name,
-            "sample_count": len(transactions),
+            "sample_count": len(return_events),
             "overall_precision": round(overall_precision, 4),
             "overall_recall": round(overall_recall, 4),
             "overall_false_positive_rate": round(overall_fpr, 4),
@@ -157,7 +156,7 @@ class EvaluationRunner:
                 "tn": total_tn,
                 "fn": total_fn
             },
-            "by_attack_class": by_class_metrics,
+            "by_abuse_class": by_class_metrics,
             "failure_cases": failure_cases,
             "detailed_results": detailed_results
         }
@@ -168,23 +167,23 @@ class EvaluationRunner:
 def display_results(summary: Dict[str, Any]):
     console.print()
     console.print(Panel.fit(
-        f"[bold white]Razorpay AI Risk Shield — Evaluation Benchmark ({summary['split'].upper()})[/bold white]\n"
+        f"[bold white]Razorpay Return-Risk Shield — Evaluation Benchmark ({summary['split'].upper()})[/bold white]\n"
         f"[dim]Total Evaluated Cases: {summary['sample_count']} | Synthetic Test-Mode Split[/dim]",
         border_style="cyan"
     ))
     
     table = Table(title="Per-Class Performance Metrics", show_header=True, header_style="bold magenta")
-    table.add_column("Attack / Transaction Class", style="cyan", width=28)
+    table.add_column("Abuse / Return Category", style="cyan", width=28)
     table.add_column("Samples", justify="right", width=10)
     table.add_column("Precision", justify="right", width=12)
     table.add_column("Recall", justify="right", width=12)
     table.add_column("FPR", justify="right", width=12)
     table.add_column("Status", justify="center", width=14)
 
-    for cls_name, metrics in summary["by_attack_class"].items():
+    for cls_name, metrics in summary["by_abuse_class"].items():
         if cls_name == "BENIGN":
             table.add_row(
-                "BENIGN (Legitimate Carts)",
+                "BENIGN (Legitimate Returns)",
                 str(metrics["sample_count"]),
                 f"{metrics['precision']*100:.1f}%",
                 f"{metrics['recall']*100:.1f}%",
@@ -219,7 +218,7 @@ def display_results(summary: Dict[str, Any]):
         console.print("[bold yellow]Documented Edge Case & Failure Analysis:[/bold yellow]")
         for fc in summary["failure_cases"]:
             console.print(
-                f"  • [cyan]{fc['transaction_id']}[/cyan] ({fc['target_attack_class']}): "
+                f"  • [cyan]{fc['event_id']}[/cyan] ({fc['target_abuse_class']}): "
                 f"Expected [bold]{fc['expected']}[/bold], Shield returned [bold]{fc['predicted']}[/bold].\n"
                 f"    [dim]Rationale: {fc['rationale']}[/dim]"
             )

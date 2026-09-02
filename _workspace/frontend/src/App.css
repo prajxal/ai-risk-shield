@@ -60,6 +60,158 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Live Traffic Control Center */
+.live-traffic-control {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+.live-traffic-control.active {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.05);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.15);
+}
+
+.live-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.live-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.pulse-icon {
+  color: var(--color-allow);
+  animation: pulse-beacon 1.5s infinite;
+}
+
+@keyframes pulse-beacon {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 4px #10b981); }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+.toggle-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.toggle-switch-btn.off {
+  background: #1e293b;
+  color: var(--text-dim);
+  border-color: var(--border-subtle);
+}
+
+.toggle-switch-btn.off:hover:not(:disabled) {
+  background: #334155;
+  color: #fff;
+}
+
+.toggle-switch-btn.on {
+  background: #10b981;
+  color: #061e12;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+.toggle-switch-btn.on:hover:not(:disabled) {
+  background: #059669;
+}
+
+.toggle-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Speed Presets */
+.speed-presets-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-left: 1px solid var(--border-subtle);
+  padding-left: 0.6rem;
+}
+
+.speed-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.speed-btn-group {
+  display: flex;
+  align-items: center;
+  background: var(--bg-subtle);
+  border-radius: 9999px;
+  padding: 2px;
+  border: 1px solid var(--border-subtle);
+}
+
+.speed-pill-btn {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-radius: 9999px;
+  background: transparent;
+  transition: all 0.15s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.speed-pill-btn:hover {
+  color: #fff;
+}
+
+.speed-pill-btn.selected {
+  background: var(--rzp-blue);
+  color: #fff;
+  box-shadow: 0 0 8px var(--rzp-blue-glow);
+}
+
+.live-stream-counter {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--color-allow);
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: monospace;
 }
 
 .status-pill {

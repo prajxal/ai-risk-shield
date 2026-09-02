@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
-import CheckoutSimulator from './components/CheckoutSimulator';
+import OrderSimulator from './components/OrderSimulator';
 import AuditTrail from './components/AuditTrail';
 import BenchmarkDashboard from './components/BenchmarkDashboard';
 import HonestFailureSpotlight from './components/HonestFailureSpotlight';
@@ -30,7 +30,7 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleTransactionEvaluated = () => {
+  const handleEvaluationSuccess = () => {
     setAuditRefreshKey(prev => prev + 1);
   };
 
@@ -44,7 +44,7 @@ export default function App() {
 
       <main className="main-content">
         {activeTab === 'simulator' && (
-          <CheckoutSimulator onTransactionEvaluated={handleTransactionEvaluated} />
+          <OrderSimulator onEvaluationSuccess={handleEvaluationSuccess} />
         )}
         {activeTab === 'audit' && (
           <AuditTrail

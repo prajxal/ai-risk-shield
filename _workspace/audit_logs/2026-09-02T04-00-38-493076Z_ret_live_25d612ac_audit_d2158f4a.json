@@ -1,0 +1,48 @@
+{
+  "audit_id": "audit_d2158f4a",
+  "timestamp": "2026-09-02T04:00:38.493076Z",
+  "event_id": "ret_live_25d612ac",
+  "customer_id": "cust_live_legit_c83696",
+  "order_id": "ord_live_7d77ad",
+  "return_id": "req_live_bd175d",
+  "decision": "ALLOW",
+  "reason": "Legitimate return request: Customer profile healthy, standard timeline, no wardrobing or damage claim anomalies.",
+  "triggered_checks": [],
+  "check_details": {
+    "customer_history_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.95,
+      "risk_score": 0.0,
+      "historical_return_rate": 0.122,
+      "total_orders": 15,
+      "total_returns": 0,
+      "chargeback_count": 0,
+      "indicators": [],
+      "reason": "Customer return profile healthy (12.2% return rate, 368d account age)."
+    },
+    "wardrobing_bracketing_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.94,
+      "risk_score": 0.0,
+      "is_wardrobing": false,
+      "is_bracketing": false,
+      "days_held": 2,
+      "condition": "UNOPENED",
+      "indicators": [],
+      "reason": "No wardrobing or bracketing patterns detected (2d holding time, condition: UNOPENED)."
+    },
+    "claim_anomaly_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.93,
+      "risk_score": 0.0,
+      "is_claim_anomaly": false,
+      "condition": "UNOPENED",
+      "refund_destination": "ORIGINAL_PAYMENT_METHOD",
+      "indicators": [],
+      "reason": "Claim consistency verified. Standard return procedure authorized."
+    }
+  }
+}

@@ -2,26 +2,16 @@
   "split": "heldout_eval",
   "sample_count": 28,
   "overall_precision": 1.0,
-  "overall_recall": 0.9333,
+  "overall_recall": 0.9375,
   "overall_false_positive_rate": 0.0,
   "confusion_matrix": {
-    "tp": 14,
+    "tp": 15,
     "fp": 0,
-    "tn": 13,
+    "tn": 12,
     "fn": 1
   },
-  "by_attack_class": {
-    "PROMPT_INJECTION": {
-      "precision": 1.0,
-      "recall": 1.0,
-      "false_positive_rate": 0.0,
-      "sample_count": 4,
-      "tp": 4,
-      "fp": 0,
-      "tn": 0,
-      "fn": 0
-    },
-    "INTENT_MISMATCH": {
+  "by_abuse_class": {
+    "WARDROBING": {
       "precision": 1.0,
       "recall": 0.8,
       "false_positive_rate": 0.0,
@@ -31,17 +21,7 @@
       "tn": 0,
       "fn": 1
     },
-    "PRICE_QUANTITY_ESCALATION": {
-      "precision": 1.0,
-      "recall": 1.0,
-      "false_positive_rate": 0.0,
-      "sample_count": 2,
-      "tp": 2,
-      "fp": 0,
-      "tn": 0,
-      "fn": 0
-    },
-    "VELOCITY_ABUSE": {
+    "BRACKETING_ABUSE": {
       "precision": 1.0,
       "recall": 1.0,
       "false_positive_rate": 0.0,
@@ -51,311 +31,387 @@
       "tn": 0,
       "fn": 0
     },
+    "SERIAL_RETURNER_FRAUD": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0,
+      "sample_count": 4,
+      "tp": 4,
+      "fp": 0,
+      "tn": 0,
+      "fn": 0
+    },
+    "FALSE_DAMAGE_CLAIM": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0,
+      "sample_count": 3,
+      "tp": 3,
+      "fp": 0,
+      "tn": 0,
+      "fn": 0
+    },
     "BENIGN": {
       "precision": 1.0,
       "recall": 1.0,
       "false_positive_rate": 0.0,
-      "sample_count": 13,
+      "sample_count": 12,
       "tp": 0,
       "fp": 0,
-      "tn": 13,
+      "tn": 12,
       "fn": 0
     }
   },
   "failure_cases": [
     {
-      "transaction_id": "tx_synth_fail_001",
-      "target_attack_class": "INTENT_MISMATCH",
+      "event_id": "ret_eval_015",
+      "target_abuse_class": "WARDROBING",
+      "expected": "FLAG",
+      "predicted": "BLOCK",
+      "risk_score": 70.0,
+      "reason": "High-confidence Wardrobing: High-value fashion item (Handwoven Kanjeevaram Saree, \u20b919,500.00) returned at 24 days with condition 'USED_ONCE'.",
+      "is_known_failure_fixture": false,
+      "rationale": "Wardrobing flag: luxury saree worn to family event and returned on day 24."
+    },
+    {
+      "event_id": "ret_eval_016",
+      "target_abuse_class": "WARDROBING",
+      "expected": "FLAG",
+      "predicted": "BLOCK",
+      "risk_score": 70.0,
+      "reason": "High-confidence Wardrobing: High-value fashion item (Velvet Designer Anarkali Suit, \u20b913,500.00) returned at 22 days with condition 'USED_ONCE'.",
+      "is_known_failure_fixture": false,
+      "rationale": "Wardrobing flag: occasionwear returned after event."
+    },
+    {
+      "event_id": "ret_eval_019",
+      "target_abuse_class": "BRACKETING_ABUSE",
+      "expected": "FLAG",
+      "predicted": "BLOCK",
+      "risk_score": 60.0,
+      "reason": "Chronic serial returner profile: 66.7% return rate across 3 orders (2 returns). | Size/Color bracketing pattern detected on 'merino wool knit sweater' (ordered 2 variants, returning 1).",
+      "is_known_failure_fixture": false,
+      "rationale": "Size bracketing on knit sweaters."
+    },
+    {
+      "event_id": "ret_eval_020",
+      "target_abuse_class": "BRACKETING_ABUSE",
+      "expected": "FLAG",
+      "predicted": "BLOCK",
+      "risk_score": 60.0,
+      "reason": "Chronic serial returner profile: 66.7% return rate across 6 orders (4 returns). | Size/Color bracketing pattern detected on 'premium ankle chelsea boots' (ordered 2 variants, returning 1).",
+      "is_known_failure_fixture": false,
+      "rationale": "Color bracketing: bought black and brown pair, returning one."
+    },
+    {
+      "event_id": "ret_eval_027",
+      "target_abuse_class": "FALSE_DAMAGE_CLAIM",
+      "expected": "FLAG",
+      "predicted": "BLOCK",
+      "risk_score": 65.0,
+      "reason": "Elevated historical return rate: 40.0% (2/5 orders returned). | High-risk damage claim on sealed electronics (Compact Action Camera 4K60, \u20b922,500.00) by high-return/new profile. Requires serial-number photo verification.",
+      "is_known_failure_fixture": false,
+      "rationale": "High-ticket action camera damage claim by elevated-return customer. Requires inspection."
+    },
+    {
+      "event_id": "ret_synth_fail_001",
+      "target_abuse_class": "WARDROBING",
       "expected": "FLAG",
       "predicted": "ALLOW",
       "risk_score": 5.0,
-      "reason": "All security checks passed. Cart strictly matches stated intent, zero injection patterns, normal velocity.",
+      "reason": "Legitimate return request: Customer profile healthy, standard timeline, no wardrobing or damage claim anomalies.",
       "is_known_failure_fixture": true,
-      "rationale": "Honest Failure Case: Subtle semantic paraphrasing & minor overage (Stated 'waterproof footwear' vs 'All-Terrain Waterproof Trekking Boots' at \u20b93,200 vs \u20b93,000 budget). The fast deterministic rule evaluated <=10% drift as ALLOW, producing an honest False Negative."
+      "rationale": "Honest Failure Case: Subtle luxury wardrobing by established loyal buyer. Customer wore a \u20b918,500 bridal saree to a banquet reception, carefully preserved the swing tag, and returned it on day 14 stating 'Color tone in hall lighting'. Ground truth policy expects FLAG for manual textile/perfume review on >\u20b915k items held >10d, but fast deterministic heuristic evaluated days < 18, clean return history (21.4%), and TAGS_ATTACHED as ALLOW (False Negative)."
     }
   ],
   "detailed_results": [
     {
-      "transaction_id": "tx_eval_001",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_001",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_612b0c26"
+      "audit_id": "audit_d7df2c7d"
     },
     {
-      "transaction_id": "tx_eval_002",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_002",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_84c74daf"
+      "audit_id": "audit_1a248d48"
     },
     {
-      "transaction_id": "tx_eval_003",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_003",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_bcaa02ac"
+      "audit_id": "audit_540bbdc9"
     },
     {
-      "transaction_id": "tx_eval_004",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_004",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_f027f3ab"
+      "audit_id": "audit_7badbdc9"
     },
     {
-      "transaction_id": "tx_eval_005",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_005",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_c82ab906"
+      "audit_id": "audit_bd9aeb30"
     },
     {
-      "transaction_id": "tx_eval_006",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_006",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_439bca25"
+      "audit_id": "audit_29099c0e"
     },
     {
-      "transaction_id": "tx_eval_007",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_007",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_cb40bc0d"
+      "audit_id": "audit_a9445c8e"
     },
     {
-      "transaction_id": "tx_eval_008",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_008",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_5e285bd8"
+      "audit_id": "audit_a54748f3"
     },
     {
-      "transaction_id": "tx_eval_009",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_009",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_c04bac7a"
+      "audit_id": "audit_1854d7e8"
     },
     {
-      "transaction_id": "tx_eval_010",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_010",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_37d52dfa"
+      "audit_id": "audit_cbcd9b1a"
     },
     {
-      "transaction_id": "tx_eval_011",
-      "target_attack_class": "BENIGN",
+      "event_id": "ret_eval_011",
+      "target_abuse_class": "BENIGN",
       "expected": "ALLOW",
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_15b2e758"
+      "audit_id": "audit_42872898"
     },
     {
-      "transaction_id": "tx_eval_012",
-      "target_attack_class": "PROMPT_INJECTION",
+      "event_id": "ret_eval_012",
+      "target_abuse_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_ae09ec15"
+    },
+    {
+      "event_id": "ret_eval_013",
+      "target_abuse_class": "WARDROBING",
       "expected": "BLOCK",
       "predicted": "BLOCK",
       "decision_match": true,
       "triggered_checks": [
-        "PROMPT_INJECTION"
+        "SERIAL_RETURNER_FRAUD",
+        "WARDROBING"
       ],
-      "audit_id": "audit_37ca5972"
+      "audit_id": "audit_ee0cee4c"
     },
     {
-      "transaction_id": "tx_eval_013",
-      "target_attack_class": "PROMPT_INJECTION",
+      "event_id": "ret_eval_014",
+      "target_abuse_class": "WARDROBING",
       "expected": "BLOCK",
       "predicted": "BLOCK",
       "decision_match": true,
       "triggered_checks": [
-        "PROMPT_INJECTION"
+        "WARDROBING"
       ],
-      "audit_id": "audit_8a7cdddf"
+      "audit_id": "audit_d55574fd"
     },
     {
-      "transaction_id": "tx_eval_014",
-      "target_attack_class": "PROMPT_INJECTION",
-      "expected": "BLOCK",
+      "event_id": "ret_eval_015",
+      "target_abuse_class": "WARDROBING",
+      "expected": "FLAG",
       "predicted": "BLOCK",
-      "decision_match": true,
+      "decision_match": false,
       "triggered_checks": [
-        "PROMPT_INJECTION"
+        "WARDROBING"
       ],
-      "audit_id": "audit_3d5fe50d"
+      "audit_id": "audit_d4054a17"
     },
     {
-      "transaction_id": "tx_eval_015",
-      "target_attack_class": "PROMPT_INJECTION",
-      "expected": "BLOCK",
+      "event_id": "ret_eval_016",
+      "target_abuse_class": "WARDROBING",
+      "expected": "FLAG",
       "predicted": "BLOCK",
-      "decision_match": true,
+      "decision_match": false,
       "triggered_checks": [
-        "PROMPT_INJECTION"
+        "WARDROBING"
       ],
-      "audit_id": "audit_7ed23e37"
+      "audit_id": "audit_0751eeae"
     },
     {
-      "transaction_id": "tx_eval_016",
-      "target_attack_class": "INTENT_MISMATCH",
-      "expected": "BLOCK",
-      "predicted": "BLOCK",
-      "decision_match": true,
-      "triggered_checks": [
-        "INTENT_MISMATCH"
-      ],
-      "audit_id": "audit_8144d630"
-    },
-    {
-      "transaction_id": "tx_eval_017",
-      "target_attack_class": "INTENT_MISMATCH",
-      "expected": "BLOCK",
-      "predicted": "BLOCK",
-      "decision_match": true,
-      "triggered_checks": [
-        "INTENT_MISMATCH"
-      ],
-      "audit_id": "audit_957bf9f8"
-    },
-    {
-      "transaction_id": "tx_eval_018",
-      "target_attack_class": "INTENT_MISMATCH",
+      "event_id": "ret_eval_017",
+      "target_abuse_class": "BRACKETING_ABUSE",
       "expected": "FLAG",
       "predicted": "FLAG",
       "decision_match": true,
       "triggered_checks": [
-        "INTENT_MISMATCH"
+        "SERIAL_RETURNER_FRAUD",
+        "BRACKETING_ABUSE"
       ],
-      "audit_id": "audit_c3bbd854"
+      "audit_id": "audit_e2d4b654"
     },
     {
-      "transaction_id": "tx_eval_019",
-      "target_attack_class": "INTENT_MISMATCH",
+      "event_id": "ret_eval_018",
+      "target_abuse_class": "BRACKETING_ABUSE",
       "expected": "BLOCK",
       "predicted": "BLOCK",
       "decision_match": true,
       "triggered_checks": [
-        "INTENT_MISMATCH"
+        "SERIAL_RETURNER_FRAUD",
+        "BRACKETING_ABUSE"
       ],
-      "audit_id": "audit_eb7f2ae0"
+      "audit_id": "audit_d060d911"
     },
     {
-      "transaction_id": "tx_eval_020",
-      "target_attack_class": "PRICE_QUANTITY_ESCALATION",
+      "event_id": "ret_eval_019",
+      "target_abuse_class": "BRACKETING_ABUSE",
       "expected": "FLAG",
-      "predicted": "FLAG",
-      "decision_match": true,
+      "predicted": "BLOCK",
+      "decision_match": false,
       "triggered_checks": [
-        "INTENT_MISMATCH",
-        "PRICE_QUANTITY_ESCALATION"
+        "SERIAL_RETURNER_FRAUD",
+        "BRACKETING_ABUSE"
       ],
-      "audit_id": "audit_5af770d9"
+      "audit_id": "audit_c8bd4328"
     },
     {
-      "transaction_id": "tx_eval_021",
-      "target_attack_class": "PRICE_QUANTITY_ESCALATION",
+      "event_id": "ret_eval_020",
+      "target_abuse_class": "BRACKETING_ABUSE",
+      "expected": "FLAG",
+      "predicted": "BLOCK",
+      "decision_match": false,
+      "triggered_checks": [
+        "SERIAL_RETURNER_FRAUD",
+        "BRACKETING_ABUSE"
+      ],
+      "audit_id": "audit_40bacef8"
+    },
+    {
+      "event_id": "ret_eval_021",
+      "target_abuse_class": "SERIAL_RETURNER_FRAUD",
       "expected": "BLOCK",
       "predicted": "BLOCK",
       "decision_match": true,
       "triggered_checks": [
-        "INTENT_MISMATCH",
-        "PRICE_QUANTITY_ESCALATION"
+        "SERIAL_RETURNER_FRAUD"
       ],
-      "audit_id": "audit_3f46ce52"
+      "audit_id": "audit_82b110b3"
     },
     {
-      "transaction_id": "tx_eval_022",
-      "target_attack_class": "BENIGN",
-      "expected": "ALLOW",
-      "predicted": "ALLOW",
-      "decision_match": true,
-      "triggered_checks": [],
-      "audit_id": "audit_d431697c"
-    },
-    {
-      "transaction_id": "tx_eval_023",
-      "target_attack_class": "BENIGN",
-      "expected": "ALLOW",
-      "predicted": "ALLOW",
-      "decision_match": true,
-      "triggered_checks": [],
-      "audit_id": "audit_fe52c1a4"
-    },
-    {
-      "transaction_id": "tx_eval_024",
-      "target_attack_class": "VELOCITY_ABUSE",
-      "expected": "FLAG",
-      "predicted": "FLAG",
-      "decision_match": true,
-      "triggered_checks": [
-        "VELOCITY_ABUSE"
-      ],
-      "audit_id": "audit_307bbd7b"
-    },
-    {
-      "transaction_id": "tx_eval_025",
-      "target_attack_class": "VELOCITY_ABUSE",
-      "expected": "FLAG",
-      "predicted": "FLAG",
-      "decision_match": true,
-      "triggered_checks": [
-        "VELOCITY_ABUSE"
-      ],
-      "audit_id": "audit_60de8627"
-    },
-    {
-      "transaction_id": "tx_eval_026",
-      "target_attack_class": "VELOCITY_ABUSE",
-      "expected": "FLAG",
-      "predicted": "FLAG",
-      "decision_match": true,
-      "triggered_checks": [
-        "VELOCITY_ABUSE"
-      ],
-      "audit_id": "audit_14a8ad7d"
-    },
-    {
-      "transaction_id": "tx_eval_027",
-      "target_attack_class": "VELOCITY_ABUSE",
+      "event_id": "ret_eval_022",
+      "target_abuse_class": "SERIAL_RETURNER_FRAUD",
       "expected": "BLOCK",
       "predicted": "BLOCK",
       "decision_match": true,
       "triggered_checks": [
-        "VELOCITY_ABUSE"
+        "SERIAL_RETURNER_FRAUD"
       ],
-      "audit_id": "audit_1510f8f0"
+      "audit_id": "audit_692a3f3f"
     },
     {
-      "transaction_id": "tx_synth_fail_001",
-      "target_attack_class": "INTENT_MISMATCH",
+      "event_id": "ret_eval_023",
+      "target_abuse_class": "SERIAL_RETURNER_FRAUD",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "SERIAL_RETURNER_FRAUD"
+      ],
+      "audit_id": "audit_64d30a76"
+    },
+    {
+      "event_id": "ret_eval_024",
+      "target_abuse_class": "SERIAL_RETURNER_FRAUD",
+      "expected": "FLAG",
+      "predicted": "FLAG",
+      "decision_match": true,
+      "triggered_checks": [
+        "SERIAL_RETURNER_FRAUD"
+      ],
+      "audit_id": "audit_452ae415"
+    },
+    {
+      "event_id": "ret_eval_025",
+      "target_abuse_class": "FALSE_DAMAGE_CLAIM",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "FALSE_DAMAGE_CLAIM"
+      ],
+      "audit_id": "audit_8a659a0a"
+    },
+    {
+      "event_id": "ret_eval_026",
+      "target_abuse_class": "FALSE_DAMAGE_CLAIM",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "FALSE_DAMAGE_CLAIM"
+      ],
+      "audit_id": "audit_40d0b2ac"
+    },
+    {
+      "event_id": "ret_eval_027",
+      "target_abuse_class": "FALSE_DAMAGE_CLAIM",
+      "expected": "FLAG",
+      "predicted": "BLOCK",
+      "decision_match": false,
+      "triggered_checks": [
+        "SERIAL_RETURNER_FRAUD",
+        "FALSE_DAMAGE_CLAIM"
+      ],
+      "audit_id": "audit_46fa276f"
+    },
+    {
+      "event_id": "ret_synth_fail_001",
+      "target_abuse_class": "WARDROBING",
       "expected": "FLAG",
       "predicted": "ALLOW",
       "decision_match": false,
       "triggered_checks": [],
-      "audit_id": "audit_cdac126d"
+      "audit_id": "audit_6c3f3483"
     }
   ]
 }

@@ -44,11 +44,12 @@ export default function HonestFailureSpotlight() {
               <span className="badge badge-warning">EXPECTED: {data.ground_truth_decision}</span>
             </div>
             <div style={{ fontSize: '0.875rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <div><strong>User Intent:</strong> "{data.user_stated_intent}" (Budget: ₹{data.user_max_budget?.toLocaleString()})</div>
-              <div><strong>Cart Item:</strong> "{data.cart_item}" (Charged: ₹{data.actual_total?.toLocaleString()})</div>
-              <div><strong>Price Delta:</strong> <span style={{ color: 'var(--color-flag)' }}>+{data.drift_pct}% over budget</span></div>
+              <div><strong>Customer Profile:</strong> {data.customer_profile_summary}</div>
+              <div><strong>Returned Item:</strong> "{data.order_item}"</div>
+              <div><strong>Holding Time:</strong> {data.days_held} days (Condition: <code className="font-mono">{data.condition_tag}</code>)</div>
+              <div><strong>Stated Reason:</strong> "{data.stated_reason}"</div>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem', borderTop: '1px solid var(--border-subtle)', paddingTop: '0.5rem' }}>
-                Requires buyer confirmation because the agent shifted from general rainy-day footwear to high-end mountaineering boots with an overage.
+                Merchant policy recommends human review (FLAG) on high-ticket luxury bridal wear (&gt;₹15k) returned after 10+ days to inspect for subtle event wear or fragrance contamination despite tags being re-attached.
               </p>
             </div>
           </div>
@@ -64,9 +65,9 @@ export default function HonestFailureSpotlight() {
             <div style={{ fontSize: '0.875rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <div><strong>Outcome:</strong> <span style={{ color: 'var(--color-flag)', fontWeight: 700 }}>{data.classification_outcome}</span></div>
               <div><strong>Assigned Risk Score:</strong> <span className="font-mono">{data.risk_score} / 100</span></div>
-              <div><strong>Tolerance Evaluated:</strong> +{data.drift_pct}% is inside ≤ 10.0% Band</div>
+              <div><strong>Rules Evaluated:</strong> 14d &lt; 18d Threshold • 21.4% Return Rate Clean • Tags Attached</div>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem', borderTop: '1px solid var(--border-subtle)', paddingTop: '0.5rem' }}>
-                Fast deterministic intent check cleared the transaction without human review because +6.67% delta falls inside the 10% tax/shipping tolerance window.
+                Fast deterministic wardrobing heuristics cleared the return without inspection because the holding period (14d) fell below the 18d threshold and the buyer maintained a trustworthy historical profile with swing tags preserved.
               </p>
             </div>
           </div>
@@ -81,7 +82,7 @@ export default function HonestFailureSpotlight() {
             <span>Root Cause Diagnostics</span>
           </div>
           <p className="card-desc">
-            Why the deterministic heuristic produced this specific false negative:
+            Why deterministic return-abuse heuristics produced this specific false negative:
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -105,15 +106,15 @@ export default function HonestFailureSpotlight() {
             <span>Engineering Trade-Off & 2-Tier Production Roadmap</span>
           </div>
           <p className="card-desc">
-            Latency and cost rationale behind the prototype design:
+            Latency and reverse-logistics cost rationale behind the prototype design:
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.85rem', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-md)' }}>
               <div>
-                <strong style={{ fontSize: '0.85rem' }}>Deterministic Heuristics (Current Prototype)</strong>
+                <strong style={{ fontSize: '0.85rem' }}>Deterministic Rules (Current Prototype)</strong>
                 <div style={{ fontSize: '0.75rem', color: 'var(--color-allow)', marginTop: '0.2rem' }}>
-                  ⚡ &lt; 2ms latency • ₹0.00 compute cost • Catches &gt;90% of attacks
+                  ⚡ &lt; 2ms latency • ₹0.00 compute cost • Catches &gt;93% of return abuse
                 </div>
               </div>
               <span className="badge badge-success">SELECTED</span>
@@ -121,9 +122,9 @@ export default function HonestFailureSpotlight() {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.85rem', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-md)', opacity: 0.8 }}>
               <div>
-                <strong style={{ fontSize: '0.85rem' }}>Full LLM Judge on Every Transaction</strong>
+                <strong style={{ fontSize: '0.85rem' }}>Mandatory Human Inspection on All Returns</strong>
                 <div style={{ fontSize: '0.75rem', color: 'var(--color-flag)', marginTop: '0.2rem' }}>
-                  ⏳ 800–1500ms latency • ₹0.20/tx cost • Unacceptable for real-time checkout
+                  ⏳ 3–5 day delay • ₹120/return warehouse cost • Destroys customer experience
                 </div>
               </div>
               <span className="badge badge-warning">DEFERRED</span>
@@ -134,8 +135,8 @@ export default function HonestFailureSpotlight() {
                 🚀 Production Two-Tier Hybrid Architecture:
               </strong>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-main)', lineHeight: 1.5 }}>
-                • <strong>Tier 1:</strong> Fast deterministic rules process 95% of transactions in &lt;2ms.<br />
-                • <strong>Tier 2:</strong> Targeted LLM-Judge is invoked <em>only</em> when price delta is in the grey zone (0% &lt; Δ ≤ 10%) or ambiguous multi-word modifiers are detected.
+                • <strong>Tier 1:</strong> Fast deterministic rules instantly auto-authorize 90% of legitimate returns in &lt;2ms.<br />
+                • <strong>Tier 2:</strong> Targeted AI visual inspection & merchant physical review is triggered <em>only</em> for high-value occasionwear (&gt;₹15k) in the 10–18 day grey zone.
               </p>
             </div>
           </div>
