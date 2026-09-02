@@ -1,0 +1,97 @@
+{
+  "version": "1.0.0",
+  "name": "Agentic Commerce Risk & Threat Matrix",
+  "description": "Defensive threat classification and risk boundary matrix for AI-agent checkout requests.",
+  "attack_classes": [
+    {
+      "class_id": "PROMPT_INJECTION",
+      "name": "Prompt Injection in Tool/Catalog Payload",
+      "severity": "CRITICAL",
+      "target_surface": [
+        "cart_items.item_description",
+        "cart_items.title",
+        "agent_metadata.reasoning_trace",
+        "shipping_address"
+      ],
+      "default_decision": "BLOCK",
+      "indicators": [
+        "instruction_override",
+        "system_tag_injection",
+        "address_redirection",
+        "price_override_syntax",
+        "developer_mode_markers"
+      ],
+      "decision_rules": {
+        "direct_command_injection": "BLOCK",
+        "delimiter_tag_spoofing": "BLOCK",
+        "suspicious_drop_point_override": "BLOCK"
+      }
+    },
+    {
+      "class_id": "INTENT_MISMATCH",
+      "name": "Cart vs Stated Intent Discrepancy",
+      "severity": "HIGH",
+      "target_surface": [
+        "checkout_payload.total_amount",
+        "checkout_payload.cart_items",
+        "user_stated_intent.max_budget",
+        "user_stated_intent.requested_items",
+        "user_stated_intent.quantity"
+      ],
+      "default_decision": "FLAG",
+      "indicators": [
+        "budget_overrun",
+        "sku_substitution",
+        "quantity_inflation",
+        "unauthorized_spec_drift"
+      ],
+      "decision_rules": {
+        "budget_drift_exceeds_50_pct": "BLOCK",
+        "budget_drift_between_10_and_50_pct": "FLAG",
+        "item_semantic_similarity_below_0_3": "BLOCK",
+        "item_semantic_similarity_between_0_3_and_0_7": "FLAG",
+        "quantity_unauthorized_inflation": "FLAG"
+      }
+    },
+    {
+      "class_id": "PRICE_QUANTITY_ESCALATION",
+      "name": "Session Retry Price/Quantity Escalation",
+      "severity": "HIGH",
+      "target_surface": [
+        "agent_metadata.retry_count",
+        "agent_metadata.session_id",
+        "checkout_payload.total_amount"
+      ],
+      "default_decision": "FLAG",
+      "indicators": [
+        "escalating_totals_on_retry",
+        "probing_merchant_bounds",
+        "rapid_spec_inflation"
+      ],
+      "decision_rules": {
+        "retry_price_jump_exceeds_50_pct": "FLAG",
+        "consecutive_escalation_after_flag": "BLOCK"
+      }
+    },
+    {
+      "class_id": "VELOCITY_ABUSE",
+      "name": "High Velocity Transaction Probing",
+      "severity": "MEDIUM",
+      "target_surface": [
+        "timestamp",
+        "agent_metadata.agent_id",
+        "agent_metadata.session_id",
+        "agent_metadata.ip_address"
+      ],
+      "default_decision": "BLOCK",
+      "indicators": [
+        "burst_rate_exceeded",
+        "automated_checkout_flooding"
+      ],
+      "decision_rules": {
+        "burst_exceeds_5_tx_per_60s": "BLOCK",
+        "burst_between_3_and_5_tx_per_60s": "FLAG"
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "audit_id": "audit_5af770d9",
+  "timestamp": "2026-09-01T15:00:00Z",
+  "transaction_id": "tx_eval_020",
+  "agent_id": "agent_eval_esc_01",
+  "session_id": "sess_eval_esc_800",
+  "decision": "FLAG",
+  "reason": "Session retry overrun: Cart total (\u20b914,500.00) is +81.2% above budget on retry #2. | Retry price escalation: Cart amount jumped by +81.2% on retry attempt #2.",
+  "triggered_checks": [
+    "INTENT_MISMATCH",
+    "PRICE_QUANTITY_ESCALATION"
+  ],
+  "check_details": {
+    "injection_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.99,
+      "risk_score": 0.0,
+      "indicators": [],
+      "matched_surfaces": [],
+      "reason": "No prompt injection patterns detected in payload."
+    },
+    "intent_check": {
+      "passed": false,
+      "action": "FLAG",
+      "confidence": 0.96,
+      "risk_score": 65.0,
+      "budget_drift_pct": 81.25,
+      "item_similarity": 0.667,
+      "quantity_drift": 0,
+      "actual_total": 14500.0,
+      "stated_budget": 8000.0,
+      "reason": "Session retry overrun: Cart total (\u20b914,500.00) is +81.2% above budget on retry #2."
+    },
+    "velocity_check": {
+      "passed": false,
+      "action": "FLAG",
+      "confidence": 0.96,
+      "risk_score": 65.0,
+      "window_count": 1,
+      "retry_count": 2,
+      "escalation_pct": 81.25,
+      "reason": "Retry price escalation: Cart amount jumped by +81.2% on retry attempt #2."
+    }
+  }
+}

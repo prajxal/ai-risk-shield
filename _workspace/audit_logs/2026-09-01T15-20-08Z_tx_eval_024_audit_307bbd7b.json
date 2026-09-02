@@ -1,0 +1,45 @@
+{
+  "audit_id": "audit_307bbd7b",
+  "timestamp": "2026-09-01T15:20:08Z",
+  "transaction_id": "tx_eval_024",
+  "agent_id": "agent_eval_bot",
+  "session_id": "sess_eval_vel_burst_01",
+  "decision": "FLAG",
+  "reason": "Elevated request frequency: 3 requests in 60s.",
+  "triggered_checks": [
+    "VELOCITY_ABUSE"
+  ],
+  "check_details": {
+    "injection_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.99,
+      "risk_score": 0.0,
+      "indicators": [],
+      "matched_surfaces": [],
+      "reason": "No prompt injection patterns detected in payload."
+    },
+    "intent_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.96,
+      "risk_score": 5.0,
+      "budget_drift_pct": -10.0,
+      "item_similarity": 1.0,
+      "quantity_drift": 0,
+      "actual_total": 450.0,
+      "stated_budget": 500.0,
+      "reason": "Cart items match user intent 'HDMI Adapter' within budget limits (drift: -10.0%, match: 1.00)."
+    },
+    "velocity_check": {
+      "passed": false,
+      "action": "FLAG",
+      "confidence": 0.96,
+      "risk_score": 45.0,
+      "window_count": 3,
+      "retry_count": 0,
+      "escalation_pct": 0.0,
+      "reason": "Elevated request frequency: 3 requests in 60s."
+    }
+  }
+}

@@ -1,0 +1,3 @@
+"""
+Shield Defensive Checks Module
+"""

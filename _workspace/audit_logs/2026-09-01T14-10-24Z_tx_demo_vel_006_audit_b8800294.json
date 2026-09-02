@@ -1,0 +1,43 @@
+{
+  "audit_id": "audit_b8800294",
+  "timestamp": "2026-09-01T14:10:24Z",
+  "transaction_id": "tx_demo_vel_006",
+  "agent_id": "bot_flooder_99",
+  "session_id": "sess_bot_flood",
+  "decision": "ALLOW",
+  "reason": "All security checks passed. Cart strictly matches stated intent, zero injection patterns, normal velocity.",
+  "triggered_checks": [],
+  "check_details": {
+    "injection_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.99,
+      "risk_score": 0.0,
+      "indicators": [],
+      "matched_surfaces": [],
+      "reason": "No prompt injection patterns detected in payload."
+    },
+    "intent_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.96,
+      "risk_score": 5.0,
+      "budget_drift_pct": -16.83,
+      "item_similarity": 1.0,
+      "quantity_drift": 0,
+      "actual_total": 499.0,
+      "stated_budget": 600.0,
+      "reason": "Cart items match user intent 'USB Flash Drive 64GB' within budget limits (drift: -16.8%, match: 1.00)."
+    },
+    "velocity_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.96,
+      "risk_score": 0.0,
+      "window_count": 1,
+      "retry_count": 0,
+      "escalation_pct": 0.0,
+      "reason": "Velocity normal (1 tx in window). No retry escalation."
+    }
+  }
+}

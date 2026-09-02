@@ -1,0 +1,5 @@
+{
+  "name": "agentic-commerce-shield-plugin",
+  "description": "Autonomous development harness for the Razorpay Track 02 AI Risk Shield (defensive proxy, intent-consistency verifier, prompt injection guard, and synthetic evaluation harness).",
+  "version": "1.0.0"
+}

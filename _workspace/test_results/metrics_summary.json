@@ -1,0 +1,361 @@
+{
+  "split": "heldout_eval",
+  "sample_count": 28,
+  "overall_precision": 1.0,
+  "overall_recall": 0.9333,
+  "overall_false_positive_rate": 0.0,
+  "confusion_matrix": {
+    "tp": 14,
+    "fp": 0,
+    "tn": 13,
+    "fn": 1
+  },
+  "by_attack_class": {
+    "PROMPT_INJECTION": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0,
+      "sample_count": 4,
+      "tp": 4,
+      "fp": 0,
+      "tn": 0,
+      "fn": 0
+    },
+    "INTENT_MISMATCH": {
+      "precision": 1.0,
+      "recall": 0.8,
+      "false_positive_rate": 0.0,
+      "sample_count": 5,
+      "tp": 4,
+      "fp": 0,
+      "tn": 0,
+      "fn": 1
+    },
+    "PRICE_QUANTITY_ESCALATION": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0,
+      "sample_count": 2,
+      "tp": 2,
+      "fp": 0,
+      "tn": 0,
+      "fn": 0
+    },
+    "VELOCITY_ABUSE": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0,
+      "sample_count": 4,
+      "tp": 4,
+      "fp": 0,
+      "tn": 0,
+      "fn": 0
+    },
+    "BENIGN": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0,
+      "sample_count": 13,
+      "tp": 0,
+      "fp": 0,
+      "tn": 13,
+      "fn": 0
+    }
+  },
+  "failure_cases": [
+    {
+      "transaction_id": "tx_synth_fail_001",
+      "target_attack_class": "INTENT_MISMATCH",
+      "expected": "FLAG",
+      "predicted": "ALLOW",
+      "risk_score": 5.0,
+      "reason": "All security checks passed. Cart strictly matches stated intent, zero injection patterns, normal velocity.",
+      "is_known_failure_fixture": true,
+      "rationale": "Honest Failure Case: Subtle semantic paraphrasing & minor overage (Stated 'waterproof footwear' vs 'All-Terrain Waterproof Trekking Boots' at \u20b93,200 vs \u20b93,000 budget). The fast deterministic rule evaluated <=10% drift as ALLOW, producing an honest False Negative."
+    }
+  ],
+  "detailed_results": [
+    {
+      "transaction_id": "tx_eval_001",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_612b0c26"
+    },
+    {
+      "transaction_id": "tx_eval_002",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_84c74daf"
+    },
+    {
+      "transaction_id": "tx_eval_003",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_bcaa02ac"
+    },
+    {
+      "transaction_id": "tx_eval_004",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_f027f3ab"
+    },
+    {
+      "transaction_id": "tx_eval_005",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_c82ab906"
+    },
+    {
+      "transaction_id": "tx_eval_006",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_439bca25"
+    },
+    {
+      "transaction_id": "tx_eval_007",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_cb40bc0d"
+    },
+    {
+      "transaction_id": "tx_eval_008",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_5e285bd8"
+    },
+    {
+      "transaction_id": "tx_eval_009",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_c04bac7a"
+    },
+    {
+      "transaction_id": "tx_eval_010",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_37d52dfa"
+    },
+    {
+      "transaction_id": "tx_eval_011",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_15b2e758"
+    },
+    {
+      "transaction_id": "tx_eval_012",
+      "target_attack_class": "PROMPT_INJECTION",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "PROMPT_INJECTION"
+      ],
+      "audit_id": "audit_37ca5972"
+    },
+    {
+      "transaction_id": "tx_eval_013",
+      "target_attack_class": "PROMPT_INJECTION",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "PROMPT_INJECTION"
+      ],
+      "audit_id": "audit_8a7cdddf"
+    },
+    {
+      "transaction_id": "tx_eval_014",
+      "target_attack_class": "PROMPT_INJECTION",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "PROMPT_INJECTION"
+      ],
+      "audit_id": "audit_3d5fe50d"
+    },
+    {
+      "transaction_id": "tx_eval_015",
+      "target_attack_class": "PROMPT_INJECTION",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "PROMPT_INJECTION"
+      ],
+      "audit_id": "audit_7ed23e37"
+    },
+    {
+      "transaction_id": "tx_eval_016",
+      "target_attack_class": "INTENT_MISMATCH",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "INTENT_MISMATCH"
+      ],
+      "audit_id": "audit_8144d630"
+    },
+    {
+      "transaction_id": "tx_eval_017",
+      "target_attack_class": "INTENT_MISMATCH",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "INTENT_MISMATCH"
+      ],
+      "audit_id": "audit_957bf9f8"
+    },
+    {
+      "transaction_id": "tx_eval_018",
+      "target_attack_class": "INTENT_MISMATCH",
+      "expected": "FLAG",
+      "predicted": "FLAG",
+      "decision_match": true,
+      "triggered_checks": [
+        "INTENT_MISMATCH"
+      ],
+      "audit_id": "audit_c3bbd854"
+    },
+    {
+      "transaction_id": "tx_eval_019",
+      "target_attack_class": "INTENT_MISMATCH",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "INTENT_MISMATCH"
+      ],
+      "audit_id": "audit_eb7f2ae0"
+    },
+    {
+      "transaction_id": "tx_eval_020",
+      "target_attack_class": "PRICE_QUANTITY_ESCALATION",
+      "expected": "FLAG",
+      "predicted": "FLAG",
+      "decision_match": true,
+      "triggered_checks": [
+        "INTENT_MISMATCH",
+        "PRICE_QUANTITY_ESCALATION"
+      ],
+      "audit_id": "audit_5af770d9"
+    },
+    {
+      "transaction_id": "tx_eval_021",
+      "target_attack_class": "PRICE_QUANTITY_ESCALATION",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "INTENT_MISMATCH",
+        "PRICE_QUANTITY_ESCALATION"
+      ],
+      "audit_id": "audit_3f46ce52"
+    },
+    {
+      "transaction_id": "tx_eval_022",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_d431697c"
+    },
+    {
+      "transaction_id": "tx_eval_023",
+      "target_attack_class": "BENIGN",
+      "expected": "ALLOW",
+      "predicted": "ALLOW",
+      "decision_match": true,
+      "triggered_checks": [],
+      "audit_id": "audit_fe52c1a4"
+    },
+    {
+      "transaction_id": "tx_eval_024",
+      "target_attack_class": "VELOCITY_ABUSE",
+      "expected": "FLAG",
+      "predicted": "FLAG",
+      "decision_match": true,
+      "triggered_checks": [
+        "VELOCITY_ABUSE"
+      ],
+      "audit_id": "audit_307bbd7b"
+    },
+    {
+      "transaction_id": "tx_eval_025",
+      "target_attack_class": "VELOCITY_ABUSE",
+      "expected": "FLAG",
+      "predicted": "FLAG",
+      "decision_match": true,
+      "triggered_checks": [
+        "VELOCITY_ABUSE"
+      ],
+      "audit_id": "audit_60de8627"
+    },
+    {
+      "transaction_id": "tx_eval_026",
+      "target_attack_class": "VELOCITY_ABUSE",
+      "expected": "FLAG",
+      "predicted": "FLAG",
+      "decision_match": true,
+      "triggered_checks": [
+        "VELOCITY_ABUSE"
+      ],
+      "audit_id": "audit_14a8ad7d"
+    },
+    {
+      "transaction_id": "tx_eval_027",
+      "target_attack_class": "VELOCITY_ABUSE",
+      "expected": "BLOCK",
+      "predicted": "BLOCK",
+      "decision_match": true,
+      "triggered_checks": [
+        "VELOCITY_ABUSE"
+      ],
+      "audit_id": "audit_1510f8f0"
+    },
+    {
+      "transaction_id": "tx_synth_fail_001",
+      "target_attack_class": "INTENT_MISMATCH",
+      "expected": "FLAG",
+      "predicted": "ALLOW",
+      "decision_match": false,
+      "triggered_checks": [],
+      "audit_id": "audit_cdac126d"
+    }
+  ]
+}
