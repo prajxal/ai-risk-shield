@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/checkout': 'http://127.0.0.1:8000',
+      '/returns': 'http://127.0.0.1:8000',
+      '/stream': 'http://127.0.0.1:8000',
       '/audit-logs': 'http://127.0.0.1:8000',
       '/metrics': 'http://127.0.0.1:8000',
       '/failure-case': 'http://127.0.0.1:8000',

@@ -59,3 +59,7 @@ Desktop.ini
 *.swp
 *.swo
 *~
+
+# Workspace
+.agents
+_workspace/audit_logs

@@ -148,6 +148,7 @@ def evaluate_return(return_event: Dict[str, Any]):
             status_code=status.HTTP_403_FORBIDDEN,
             detail={
                 "status": "BLOCKED",
+                "action": decision.action.value,
                 "reason": decision.reason,
                 "triggered_checks": decision.triggered_checks,
                 "risk_score": decision.risk_score,
