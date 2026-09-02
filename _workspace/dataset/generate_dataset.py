@@ -637,7 +637,7 @@ def build_heldout_dataset():
             target_abuse_class=AbuseClass.WARDROBING,
             expected_decision=DecisionAction.FLAG,
             failure_case=True,
-            rationale="Honest Failure Case: Subtle luxury wardrobing by established loyal buyer. Customer wore a ₹18,500 bridal saree to a banquet reception, carefully preserved the swing tag, and returned it on day 14 stating 'Color tone in hall lighting'. Ground truth policy expects FLAG for manual textile/perfume review on >₹15k items held >10d, but fast deterministic heuristic evaluated days < 18, clean return history (21.4%), and TAGS_ATTACHED as ALLOW (False Negative)."
+            rationale="Honest Failure Case: Keyword evasion in wardrobing detection. The buyer wore a ₹18,500 bridal silk saree to an event, kept the swing tag attached ('TAGS_ATTACHED'), and returned it on Day 14 describing the reason as 'Color tone under banquet hall lighting did not match bridesmaid theme'. This phrasing omitted exact keyword triggers ('wedding', 'reception', 'party', 'gala', 'ceremony'). Combined with days_since_purchase = 14 (< 18 cutoff) and a clean account history (21.4% return rate), all deterministic checks passed, outputting ALLOW (False Negative) against the expected FLAG ground truth."
         )
     ))
 

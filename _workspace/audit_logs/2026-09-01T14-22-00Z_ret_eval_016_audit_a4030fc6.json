@@ -1,0 +1,52 @@
+{
+  "audit_id": "audit_a4030fc6",
+  "timestamp": "2026-09-01T14:22:00Z",
+  "event_id": "ret_eval_016",
+  "customer_id": "cust_eval_w4",
+  "order_id": "ord_eval_w_04",
+  "return_id": "ret_eval_w_04",
+  "decision": "BLOCK",
+  "reason": "High-confidence Wardrobing: High-value fashion item (Velvet Designer Anarkali Suit, \u20b913,500.00) returned at 22 days with condition 'USED_ONCE'.",
+  "triggered_checks": [
+    "WARDROBING"
+  ],
+  "check_details": {
+    "customer_history_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.95,
+      "risk_score": 0.0,
+      "historical_return_rate": 0.333,
+      "total_orders": 3,
+      "total_returns": 1,
+      "chargeback_count": 0,
+      "indicators": [],
+      "reason": "Customer return profile healthy (33.3% return rate, 95d account age)."
+    },
+    "wardrobing_bracketing_check": {
+      "passed": false,
+      "action": "BLOCK",
+      "confidence": 0.94,
+      "risk_score": 70.0,
+      "is_wardrobing": true,
+      "is_bracketing": false,
+      "days_held": 22,
+      "condition": "USED_ONCE",
+      "indicators": [
+        "WARDROBING_TAGS_REMOVED_LATE"
+      ],
+      "reason": "High-confidence Wardrobing: High-value fashion item (Velvet Designer Anarkali Suit, \u20b913,500.00) returned at 22 days with condition 'USED_ONCE'."
+    },
+    "claim_anomaly_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.93,
+      "risk_score": 0.0,
+      "is_claim_anomaly": false,
+      "condition": "USED_ONCE",
+      "refund_destination": "ORIGINAL_PAYMENT_METHOD",
+      "indicators": [],
+      "reason": "Claim consistency verified. Standard return procedure authorized."
+    }
+  }
+}

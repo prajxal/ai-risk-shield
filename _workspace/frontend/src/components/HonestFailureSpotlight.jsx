@@ -28,7 +28,7 @@ export default function HonestFailureSpotlight() {
               Track 02 Requirement: Honest Known Failure Case Spotlight
             </div>
             <p className="card-desc" style={{ marginBottom: 0 }}>
-              Scenario ID: <code className="font-mono" style={{ color: '#fff', fontWeight: 700 }}>{data.scenario_id}</code> • Transparent Failure Mode & Latency/Cost Engineering Trade-off
+              Scenario ID: <code className="font-mono" style={{ color: '#fff', fontWeight: 700 }}>{data.scenario_id}</code> • Keyword Evasion & Deterministic Heuristic Boundary Case
             </p>
           </div>
         </div>
@@ -49,7 +49,7 @@ export default function HonestFailureSpotlight() {
               <div><strong>Holding Time:</strong> {data.days_held} days (Condition: <code className="font-mono">{data.condition_tag}</code>)</div>
               <div><strong>Stated Reason:</strong> "{data.stated_reason}"</div>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem', borderTop: '1px solid var(--border-subtle)', paddingTop: '0.5rem' }}>
-                Merchant policy recommends human review (FLAG) on high-ticket luxury bridal wear (&gt;₹15k) returned after 10+ days to inspect for subtle event wear or fragrance contamination despite tags being re-attached.
+                The underlying transaction represents genuine wardrobing: single-use occasionwear (₹18,500 bridal silk saree) worn to an event and returned just before the return window closes. Ground truth expects a <strong>FLAG</strong> for manual review.
               </p>
             </div>
           </div>
@@ -65,9 +65,9 @@ export default function HonestFailureSpotlight() {
             <div style={{ fontSize: '0.875rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <div><strong>Outcome:</strong> <span style={{ color: 'var(--color-flag)', fontWeight: 700 }}>{data.classification_outcome}</span></div>
               <div><strong>Assigned Risk Score:</strong> <span className="font-mono">{data.risk_score} / 100</span></div>
-              <div><strong>Rules Evaluated:</strong> 14d &lt; 18d Threshold • 21.4% Return Rate Clean • Tags Attached</div>
+              <div><strong>Evaluation Breakdown:</strong> 14d &lt; 18d Threshold • Tags Attached • 21.4% Return Rate Clean • 0 Trigger Words</div>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem', borderTop: '1px solid var(--border-subtle)', paddingTop: '0.5rem' }}>
-                Fast deterministic wardrobing heuristics cleared the return without inspection because the holding period (14d) fell below the 18d threshold and the buyer maintained a trustworthy historical profile with swing tags preserved.
+                Every deterministic check passed: the reason text evaded keyword triggers, the swing tag was preserved, holding time was below 18 days, and account history was healthy — resulting in an automatic <strong>ALLOW</strong>.
               </p>
             </div>
           </div>
@@ -82,7 +82,7 @@ export default function HonestFailureSpotlight() {
             <span>Root Cause Diagnostics</span>
           </div>
           <p className="card-desc">
-            Why deterministic return-abuse heuristics produced this specific false negative:
+            Why deterministic keyword heuristics produced this specific false negative:
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -106,7 +106,7 @@ export default function HonestFailureSpotlight() {
             <span>Engineering Trade-Off & 2-Tier Production Roadmap</span>
           </div>
           <p className="card-desc">
-            Latency and reverse-logistics cost rationale behind the prototype design:
+            Deterministic speed vs semantic understanding in return fraud detection:
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -122,9 +122,9 @@ export default function HonestFailureSpotlight() {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0.85rem', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-md)', opacity: 0.8 }}>
               <div>
-                <strong style={{ fontSize: '0.85rem' }}>Mandatory Human Inspection on All Returns</strong>
+                <strong style={{ fontSize: '0.85rem' }}>Full LLM Semantic Judge on Every Return</strong>
                 <div style={{ fontSize: '0.75rem', color: 'var(--color-flag)', marginTop: '0.2rem' }}>
-                  ⏳ 3–5 day delay • ₹120/return warehouse cost • Destroys customer experience
+                  ⏳ 800–1500ms latency • ₹0.20/call cost • Unnecessary overhead for 90%+ clear cases
                 </div>
               </div>
               <span className="badge badge-warning">DEFERRED</span>
@@ -135,8 +135,8 @@ export default function HonestFailureSpotlight() {
                 🚀 Production Two-Tier Hybrid Architecture:
               </strong>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-main)', lineHeight: 1.5 }}>
-                • <strong>Tier 1:</strong> Fast deterministic rules instantly auto-authorize 90% of legitimate returns in &lt;2ms.<br />
-                • <strong>Tier 2:</strong> Targeted AI visual inspection & merchant physical review is triggered <em>only</em> for high-value occasionwear (&gt;₹15k) in the 10–18 day grey zone.
+                • <strong>Tier 1:</strong> Fast deterministic rules instantly auto-authorize 90%+ of clean returns in &lt;2ms.<br />
+                • <strong>Tier 2:</strong> A lightweight semantic classifier or LLM judge is invoked <em>only</em> when high-value occasionwear is returned near the window cutoff with subjective reason notes, resolving keyword evasion without adding latency across the board.
               </p>
             </div>
           </div>

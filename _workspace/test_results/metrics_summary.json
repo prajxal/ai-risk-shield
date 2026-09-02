@@ -121,7 +121,7 @@
       "risk_score": 5.0,
       "reason": "Legitimate return request: Customer profile healthy, standard timeline, no wardrobing or damage claim anomalies.",
       "is_known_failure_fixture": true,
-      "rationale": "Honest Failure Case: Subtle luxury wardrobing by established loyal buyer. Customer wore a \u20b918,500 bridal saree to a banquet reception, carefully preserved the swing tag, and returned it on day 14 stating 'Color tone in hall lighting'. Ground truth policy expects FLAG for manual textile/perfume review on >\u20b915k items held >10d, but fast deterministic heuristic evaluated days < 18, clean return history (21.4%), and TAGS_ATTACHED as ALLOW (False Negative)."
+      "rationale": "Honest Failure Case: Keyword evasion in wardrobing detection. The buyer wore a \u20b918,500 bridal silk saree to an event, kept the swing tag attached ('TAGS_ATTACHED'), and returned it on Day 14 describing the reason as 'Color tone under banquet hall lighting did not match bridesmaid theme'. This phrasing omitted exact keyword triggers ('wedding', 'reception', 'party', 'gala', 'ceremony'). Combined with days_since_purchase = 14 (< 18 cutoff) and a clean account history (21.4% return rate), all deterministic checks passed, outputting ALLOW (False Negative) against the expected FLAG ground truth."
     }
   ],
   "detailed_results": [
@@ -132,7 +132,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_d7df2c7d"
+      "audit_id": "audit_cd0fbfc7"
     },
     {
       "event_id": "ret_eval_002",
@@ -141,7 +141,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_1a248d48"
+      "audit_id": "audit_bd109bc7"
     },
     {
       "event_id": "ret_eval_003",
@@ -150,7 +150,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_540bbdc9"
+      "audit_id": "audit_385f4f59"
     },
     {
       "event_id": "ret_eval_004",
@@ -159,7 +159,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_7badbdc9"
+      "audit_id": "audit_dffee24f"
     },
     {
       "event_id": "ret_eval_005",
@@ -168,7 +168,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_bd9aeb30"
+      "audit_id": "audit_d627f429"
     },
     {
       "event_id": "ret_eval_006",
@@ -177,7 +177,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_29099c0e"
+      "audit_id": "audit_91e3f551"
     },
     {
       "event_id": "ret_eval_007",
@@ -186,7 +186,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_a9445c8e"
+      "audit_id": "audit_cb0bfe82"
     },
     {
       "event_id": "ret_eval_008",
@@ -195,7 +195,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_a54748f3"
+      "audit_id": "audit_861ab371"
     },
     {
       "event_id": "ret_eval_009",
@@ -204,7 +204,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_1854d7e8"
+      "audit_id": "audit_73d19868"
     },
     {
       "event_id": "ret_eval_010",
@@ -213,7 +213,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_cbcd9b1a"
+      "audit_id": "audit_25a39113"
     },
     {
       "event_id": "ret_eval_011",
@@ -222,7 +222,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_42872898"
+      "audit_id": "audit_36a47c35"
     },
     {
       "event_id": "ret_eval_012",
@@ -231,7 +231,7 @@
       "predicted": "ALLOW",
       "decision_match": true,
       "triggered_checks": [],
-      "audit_id": "audit_ae09ec15"
+      "audit_id": "audit_99bd2ace"
     },
     {
       "event_id": "ret_eval_013",
@@ -243,7 +243,7 @@
         "SERIAL_RETURNER_FRAUD",
         "WARDROBING"
       ],
-      "audit_id": "audit_ee0cee4c"
+      "audit_id": "audit_afb4c071"
     },
     {
       "event_id": "ret_eval_014",
@@ -254,7 +254,7 @@
       "triggered_checks": [
         "WARDROBING"
       ],
-      "audit_id": "audit_d55574fd"
+      "audit_id": "audit_f732828a"
     },
     {
       "event_id": "ret_eval_015",
@@ -265,7 +265,7 @@
       "triggered_checks": [
         "WARDROBING"
       ],
-      "audit_id": "audit_d4054a17"
+      "audit_id": "audit_c9231475"
     },
     {
       "event_id": "ret_eval_016",
@@ -276,7 +276,7 @@
       "triggered_checks": [
         "WARDROBING"
       ],
-      "audit_id": "audit_0751eeae"
+      "audit_id": "audit_baa1c0d5"
     },
     {
       "event_id": "ret_eval_017",
@@ -288,7 +288,7 @@
         "SERIAL_RETURNER_FRAUD",
         "BRACKETING_ABUSE"
       ],
-      "audit_id": "audit_e2d4b654"
+      "audit_id": "audit_76e91d58"
     },
     {
       "event_id": "ret_eval_018",
@@ -300,7 +300,7 @@
         "SERIAL_RETURNER_FRAUD",
         "BRACKETING_ABUSE"
       ],
-      "audit_id": "audit_d060d911"
+      "audit_id": "audit_da614bf6"
     },
     {
       "event_id": "ret_eval_019",
@@ -312,7 +312,7 @@
         "SERIAL_RETURNER_FRAUD",
         "BRACKETING_ABUSE"
       ],
-      "audit_id": "audit_c8bd4328"
+      "audit_id": "audit_35f77cf8"
     },
     {
       "event_id": "ret_eval_020",
@@ -324,7 +324,7 @@
         "SERIAL_RETURNER_FRAUD",
         "BRACKETING_ABUSE"
       ],
-      "audit_id": "audit_40bacef8"
+      "audit_id": "audit_e4167128"
     },
     {
       "event_id": "ret_eval_021",
@@ -335,7 +335,7 @@
       "triggered_checks": [
         "SERIAL_RETURNER_FRAUD"
       ],
-      "audit_id": "audit_82b110b3"
+      "audit_id": "audit_6ddd20f9"
     },
     {
       "event_id": "ret_eval_022",
@@ -346,7 +346,7 @@
       "triggered_checks": [
         "SERIAL_RETURNER_FRAUD"
       ],
-      "audit_id": "audit_692a3f3f"
+      "audit_id": "audit_5e4c74a6"
     },
     {
       "event_id": "ret_eval_023",
@@ -357,7 +357,7 @@
       "triggered_checks": [
         "SERIAL_RETURNER_FRAUD"
       ],
-      "audit_id": "audit_64d30a76"
+      "audit_id": "audit_09733fc7"
     },
     {
       "event_id": "ret_eval_024",
@@ -368,7 +368,7 @@
       "triggered_checks": [
         "SERIAL_RETURNER_FRAUD"
       ],
-      "audit_id": "audit_452ae415"
+      "audit_id": "audit_0b56d042"
     },
     {
       "event_id": "ret_eval_025",
@@ -379,7 +379,7 @@
       "triggered_checks": [
         "FALSE_DAMAGE_CLAIM"
       ],
-      "audit_id": "audit_8a659a0a"
+      "audit_id": "audit_27575a22"
     },
     {
       "event_id": "ret_eval_026",
@@ -390,7 +390,7 @@
       "triggered_checks": [
         "FALSE_DAMAGE_CLAIM"
       ],
-      "audit_id": "audit_40d0b2ac"
+      "audit_id": "audit_725246d2"
     },
     {
       "event_id": "ret_eval_027",
@@ -402,7 +402,7 @@
         "SERIAL_RETURNER_FRAUD",
         "FALSE_DAMAGE_CLAIM"
       ],
-      "audit_id": "audit_46fa276f"
+      "audit_id": "audit_35a41793"
     },
     {
       "event_id": "ret_synth_fail_001",
@@ -411,7 +411,7 @@
       "predicted": "ALLOW",
       "decision_match": false,
       "triggered_checks": [],
-      "audit_id": "audit_6c3f3483"
+      "audit_id": "audit_50dcebab"
     }
   ]
 }

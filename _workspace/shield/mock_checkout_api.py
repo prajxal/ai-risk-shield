@@ -261,11 +261,12 @@ def get_failure_case():
         "risk_score": 5.0,
         "classification_outcome": "False Negative (Honest Edge Case)",
         "root_causes": [
-            "Tag Preservation: Buyer carefully kept the paper swing tag on while wearing the saree to an evening reception.",
-            "Established Account Trust: 420-day-old customer account with 14 orders and healthy 21.4% return history bypassed high-risk customer filters.",
-            "Tolerance Window: Returned on day 14 (just inside the 15-day luxury window), which fell below the fast heuristic's >=18 day wardrobing threshold."
+            "Keyword List Evasion: The reason text used synonymous event phrasing ('banquet hall', 'bridesmaid theme') that omitted hardcoded trigger words ('wedding', 'reception', 'party', 'gala', 'ceremony').",
+            "Tag Preservation: The buyer kept the swing tag attached ('TAGS_ATTACHED') while wearing the saree once, bypassing condition-based flagging.",
+            "Window Boundary Margin: Returned on day 14, falling below the static 18-day wardrobing cutoff.",
+            "Clean Account History: Account age of 420 days, 21.4% return rate, and 0 chargebacks kept customer history checks entirely clear."
         ],
-        "production_tradeoff": "Deterministic heuristics execute in < 2ms at ₹0 cost, catching >93% of returns abuse. In production, a two-tier hybrid architecture triggers secondary photo & fabric inspection for luxury items >₹15,000 returned after 10+ days."
+        "production_tradeoff": "Deterministic heuristics execute in < 2ms at ₹0 cost, catching >93% of return abuse. However, keyword matching is vulnerable to natural rephrasing. In production, a two-tier hybrid architecture routes high-value occasionwear returned near the window cutoff to a lightweight semantic / LLM-based intent classifier."
     }
 
 

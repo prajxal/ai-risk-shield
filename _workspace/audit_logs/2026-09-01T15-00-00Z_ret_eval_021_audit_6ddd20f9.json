@@ -1,0 +1,53 @@
+{
+  "audit_id": "audit_6ddd20f9",
+  "timestamp": "2026-09-01T15:00:00Z",
+  "event_id": "ret_eval_021",
+  "customer_id": "cust_eval_s1",
+  "order_id": "ord_eval_s_01",
+  "return_id": "ret_eval_s_01",
+  "decision": "BLOCK",
+  "reason": "Chronic serial returner profile: 81.8% return rate across 11 orders (9 returns). Critical risk: Customer has 2 prior payment dispute/chargeback records.",
+  "triggered_checks": [
+    "SERIAL_RETURNER_FRAUD"
+  ],
+  "check_details": {
+    "customer_history_check": {
+      "passed": false,
+      "action": "BLOCK",
+      "confidence": 0.95,
+      "risk_score": 100.0,
+      "historical_return_rate": 0.818,
+      "total_orders": 11,
+      "total_returns": 9,
+      "chargeback_count": 2,
+      "indicators": [
+        "HIGH_RETURN_RATE_BURDEN",
+        "CHRONIC_CHARGEBACK_HISTORY"
+      ],
+      "reason": "Chronic serial returner profile: 81.8% return rate across 11 orders (9 returns). Critical risk: Customer has 2 prior payment dispute/chargeback records."
+    },
+    "wardrobing_bracketing_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.94,
+      "risk_score": 0.0,
+      "is_wardrobing": false,
+      "is_bracketing": false,
+      "days_held": 3,
+      "condition": "TAGS_ATTACHED",
+      "indicators": [],
+      "reason": "No wardrobing or bracketing patterns detected (3d holding time, condition: TAGS_ATTACHED)."
+    },
+    "claim_anomaly_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.93,
+      "risk_score": 0.0,
+      "is_claim_anomaly": false,
+      "condition": "TAGS_ATTACHED",
+      "refund_destination": "ORIGINAL_PAYMENT_METHOD",
+      "indicators": [],
+      "reason": "Claim consistency verified. Standard return procedure authorized."
+    }
+  }
+}

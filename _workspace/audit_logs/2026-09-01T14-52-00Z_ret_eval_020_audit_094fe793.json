@@ -1,0 +1,55 @@
+{
+  "audit_id": "audit_094fe793",
+  "timestamp": "2026-09-01T14:52:00Z",
+  "event_id": "ret_eval_020",
+  "customer_id": "cust_eval_b4",
+  "order_id": "ord_eval_b_04",
+  "return_id": "ret_eval_b_04",
+  "decision": "BLOCK",
+  "reason": "Chronic serial returner profile: 66.7% return rate across 6 orders (4 returns). | Size/Color bracketing pattern detected on 'premium ankle chelsea boots' (ordered 2 variants, returning 1).",
+  "triggered_checks": [
+    "SERIAL_RETURNER_FRAUD",
+    "BRACKETING_ABUSE"
+  ],
+  "check_details": {
+    "customer_history_check": {
+      "passed": false,
+      "action": "BLOCK",
+      "confidence": 0.95,
+      "risk_score": 60.0,
+      "historical_return_rate": 0.667,
+      "total_orders": 6,
+      "total_returns": 4,
+      "chargeback_count": 0,
+      "indicators": [
+        "HIGH_RETURN_RATE_BURDEN"
+      ],
+      "reason": "Chronic serial returner profile: 66.7% return rate across 6 orders (4 returns)."
+    },
+    "wardrobing_bracketing_check": {
+      "passed": false,
+      "action": "FLAG",
+      "confidence": 0.88,
+      "risk_score": 35.0,
+      "is_wardrobing": false,
+      "is_bracketing": true,
+      "days_held": 3,
+      "condition": "TAGS_ATTACHED",
+      "indicators": [
+        "BRACKETING_PATTERN_DETECTED"
+      ],
+      "reason": "Size/Color bracketing pattern detected on 'premium ankle chelsea boots' (ordered 2 variants, returning 1)."
+    },
+    "claim_anomaly_check": {
+      "passed": true,
+      "action": "ALLOW",
+      "confidence": 0.93,
+      "risk_score": 0.0,
+      "is_claim_anomaly": false,
+      "condition": "TAGS_ATTACHED",
+      "refund_destination": "ORIGINAL_PAYMENT_METHOD",
+      "indicators": [],
+      "reason": "Claim consistency verified. Standard return procedure authorized."
+    }
+  }
+}
