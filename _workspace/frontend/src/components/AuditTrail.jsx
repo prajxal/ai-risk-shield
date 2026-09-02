@@ -297,7 +297,7 @@ export default function AuditTrail({ refreshTrigger, onNavigateToSimulator }) {
                                 <div className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                                   <div>Wardrobing Risk: <span style={{ color: entry.check_details.wardrobing_bracketing_check?.is_wardrobing ? 'var(--color-block)' : '#fff' }}>{entry.check_details.wardrobing_bracketing_check?.is_wardrobing ? 'DETECTED' : 'CLEAR'}</span></div>
                                   <div>Bracketing Risk: <span style={{ color: entry.check_details.wardrobing_bracketing_check?.is_bracketing ? 'var(--color-flag)' : '#fff' }}>{entry.check_details.wardrobing_bracketing_check?.is_bracketing ? 'DETECTED' : 'CLEAR'}</span></div>
-                                  <div>Holding Time: {entry.check_details.wardrobing_bracketing_check?.days_since_purchase ?? 'N/A'} days</div>
+                                  <div>Holding Time: {entry.check_details.wardrobing_bracketing_check?.days_held ?? entry.check_details.wardrobing_bracketing_check?.days_since_purchase ?? 'N/A'} days</div>
                                 </div>
                               </div>
 

@@ -73,6 +73,7 @@ class CustomerHistoryCheck:
             "confidence": 0.95 if action != DecisionAction.FLAG else 0.85,
             "risk_score": min(100.0, risk_score),
             "historical_return_rate": round(return_rate, 3),
+            "account_age_days": account_age,
             "total_orders": total_orders,
             "total_returns": total_returns,
             "chargeback_count": chargebacks,

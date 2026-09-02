@@ -107,7 +107,17 @@ export default function OrderSimulator({ onEvaluationSuccess }) {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
                   <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>{sc.name}</span>
-                  <span className={`badge badge-${sc.badge_type || 'info'}`}>{sc.badge}</span>
+                  <span className={`badge ${
+                    (sc.badge || '').includes('ALLOW')
+                      ? 'badge-allow'
+                      : (sc.badge || '').includes('FLAG')
+                      ? 'badge-flag'
+                      : (sc.badge || '').includes('BLOCK')
+                      ? 'badge-block'
+                      : 'badge-allow'
+                  }`}>
+                    {sc.badge}
+                  </span>
                 </div>
                 <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', textAlign: 'left', margin: 0 }}>
                   {sc.description}

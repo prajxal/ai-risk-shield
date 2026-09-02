@@ -115,6 +115,7 @@ class WardrobingBracketingCheck:
             "is_wardrobing": is_wardrobing,
             "is_bracketing": is_bracketing,
             "days_held": days_held,
+            "days_since_purchase": days_held,
             "condition": condition,
             "indicators": indicators,
             "reason": " ".join(reasons)

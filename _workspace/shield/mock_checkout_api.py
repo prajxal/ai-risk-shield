@@ -482,7 +482,7 @@ def get_scenarios():
             "id": "scenario_5_honest_failure",
             "name": "Scenario 5: Documented Honest Failure Case",
             "badge": "ALLOW (FN)",
-            "badge_type": "info",
+            "badge_type": "success",
             "description": "Bridal silk saree (₹18,500) worn once to banquet and returned on Day 14 with tags re-attached.",
             "return_event": {
                 "event_id": "ret_synth_fail_001",
